@@ -1,2 +1,17 @@
 <h1>I AM THE INDEX</h1>
 
+<ul>
+    <% @days.each do |day| %>
+        <li>On <%= day.date %></li>
+        <ul>
+            <% day.temperature_entries.each do |entry| %>
+                <li>
+                    at <%= entry.hour %>
+                    The temperature was 
+                    <%= entry.tempf %>F
+                    <%= entry.tempc %>C
+                </li>
+            <% end %>
+        </ul>
+    <% end %>
+</ul>
