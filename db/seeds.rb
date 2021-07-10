@@ -1,7 +1,8 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+require 'json'
+require 'rest-client'
+require 'open-uri'
+
+url = "http://api.worldweatheronline.com/premium/v1/weather.ashx?key=#{ENV['API_KEY']}&q=30.404251,-97.849442&data=weather&date=2021-06-20&format=json"
+weather_data = open(url).read
+
+ap weather_data
