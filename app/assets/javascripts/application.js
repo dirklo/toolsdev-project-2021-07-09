@@ -16,3 +16,6 @@
 //= require_tree .
 //= require highstock
 //= require highstock/highcharts-more
+//= require jquery3
+//= require popper
+//= require bootstrap-sprockets
