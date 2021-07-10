@@ -15,7 +15,9 @@
 //= require turbolinks
 //= require_tree .
 //= require highstock
-//= require highstock/highcharts-more
+
+// Left out highstock-more, because not found
+
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
