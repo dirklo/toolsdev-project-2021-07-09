@@ -3,33 +3,3 @@
 <div id="chart_one" style="width:100%; height:400px;">
 
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-
-        const timeStamp = "<%= @temperature_entries[0]['date'] %>"
-        const splitString = timeStamp.split(' ').slice(0,2).join('T')
-        const date = Date.parse(splitString)
-        
-        Highcharts.stockChart('chart_one', {
-            rangeSelector: {
-                selected: 1
-            },
-
-            title: {
-                text: 'Austin Temperature'
-            },
-
-            xAxis: {
-                type: 'datetime'
-            },
-
-            series: [{
-                name: 'Temperature',
-                data: <%= @temperature_entries.collect { |entry| entry.tempf } %>,
-                pointStart: date,
-                pointInterval: 3600 * 1000 // one hour
-            }]
-        });
-    });
-</script>
