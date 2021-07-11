@@ -1,6 +1,6 @@
 class HomeController < ApplicationController 
     def index
-        @days = Day.all
+        @temperature_entries = TemperatureEntry.all
         render 'home/index'
     end
 end

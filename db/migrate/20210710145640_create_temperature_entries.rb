@@ -3,8 +3,7 @@ class CreateTemperatureEntries < ActiveRecord::Migration[5.2]
     create_table :temperature_entries do |t|
       t.integer :tempf
       t.integer :tempc
-      t.integer :hour
-      t.integer :day_id
+      t.timestamp :date
 
       t.timestamps
     end

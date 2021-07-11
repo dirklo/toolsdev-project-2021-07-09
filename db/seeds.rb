@@ -14,12 +14,17 @@ parsed_weather_data = JSON.parse(weather_data)
 all_weather_data = parsed_weather_data['data']['weather']
 
 # Creating DB objects:
-# Day(date)
-# TemperatureEntry(tempf, tempc, hour)
+# TemperatureEntry(tempf, tempc, date)
 all_weather_data.each do |day|
-    @day = Day.create(date: day['date'])
-    day['hourly'].each do |hour| 
-        @day.temperature_entries.create(tempf: hour['tempF'], tempc: hour['tempC'], hour: hour['time'])
+    day['hourly'].each do |hour|
+        date_time = DateTime.parse(
+            "#{day['date']} #{hour['time'].delete_suffix('00')}:00:00 Central Time (US & Canada)"
+        )
+        TemperatureEntry.create(
+            tempf: hour['tempF'], 
+            tempc: hour['tempC'], 
+            date: date_time
+        )
     end
 end
 
