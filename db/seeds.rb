@@ -5,7 +5,7 @@ require 'date'
 
 
 # Backlog data from 1 month ago, to populate database
-date_today = Date.today.strftime
+date_today = (Date.today + 2).strftime
 one_month_ago = (Date.today - 30).strftime
 
 url = "http://api.worldweatheronline.com/premium/v1/past-weather.ashx?key=#{ENV['API_KEY']}&q=30.404251,-97.849442&data=weather&date=#{one_month_ago}&enddate=#{date_today}&tp=1&format=json"
