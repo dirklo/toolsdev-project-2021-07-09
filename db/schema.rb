@@ -16,9 +16,13 @@ ActiveRecord::Schema.define(version: 2021_07_10_145640) do
   enable_extension "plpgsql"
 
   create_table "temperature_entries", force: :cascade do |t|
+    t.datetime "date"
     t.integer "tempf"
     t.integer "tempc"
-    t.datetime "date"
+    t.integer "record_highf"
+    t.integer "record_highc"
+    t.integer "record_lowf"
+    t.integer "record_lowc"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
