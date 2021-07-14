@@ -14,9 +14,10 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-//= require highstock
+//= require highcharts
+//= require highcharts-more
+//= require dumbbell
 
-// Left out highstock-more, because not found
 
 //= require jquery3
 //= require popper
