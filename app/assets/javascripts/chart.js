@@ -1,25 +1,81 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    const buildChart = function () {
+    const buildCharts = function () {
         fetch('/historical_entries')
         .then((res) => res.json())
         .then((json) => {
-            const historicalData = json.map(entry => entry.tempf)
+            const historicalDataF = json.map(entry => entry.tempf)
+            const historicalDataC = json.map(entry => entry.tempc)
+            const recordLows = json.map(entry => entry.record_lowf)
+            const recordHighs = json.map(entry => entry.record_highf)
             const historicalStartDate = json[0].date
 
             fetch('/forecast_entries')
             .then((res) => res.json())
             .then((json) => {
-                const forecastData = json.map(entry => entry.tempf)
+                const forecastDataF = json.map(entry => entry.tempf)
+                const forecastDataC = json.map(entry => entry.tempc)
                 const forecastStartDate = json[0].date
 
-                Highcharts.stockChart('chart_one', {
+                let chartOne= new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'chart_one',
+                        type: 'line'
+                    },
+                    rangeSelector: {
+                        selected: 1
+                    },
+                    title: {
+                        text: 'Austin HQ Temperature'
+                    },
+                    subtitle: {
+						text: 'Previous Month at 1:00 Hour Intervals'
+					},
+                    xAxis: {
+                        type: 'datetime'
+                    },
+                    yAxis: {
+                        title: {
+							text: 'Temperature(C/F)'
+						},
+                    },
+                    series: [{
+                        name: 'Historical Temperature(F)',
+                        data: historicalDataF,
+                        pointStart: Date.parse(historicalStartDate),
+                        pointInterval: 3600 * 1000 // one hour
+                    },
+                    {
+                        name: 'Forecasted Temperature(F)',
+                        data: forecastDataF,
+                        pointStart: Date.parse(forecastStartDate),
+                        pointInterval: 3600 * 1000  // one hour
+                    },
+                    {
+                        name: 'Historical Temperature(C)',
+                        data: historicalDataC,
+                        pointStart: Date.parse(historicalStartDate),
+                        pointInterval: 3600 * 1000 // one hour
+                    },
+                    {
+                        name: 'Forecasted Temperature(C)',
+                        data: forecastDataC,
+                        pointStart: Date.parse(forecastStartDate),
+                        pointInterval: 3600 * 1000  // one hour
+                    }]
+                });
+
+                let chartTwo = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'chart_two',
+                        type: 'line'
+                    },
                     rangeSelector: {
                         selected: 1
                     },
             
                     title: {
-                        text: 'Austin Temperature'
+                        text: 'Highs and Lows'
                     },
             
                     xAxis: {
@@ -27,56 +83,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
             
                     series: [{
-                        name: 'Temperature',
-                        data: historicalData,
+                        name: 'Record Lows',
+                        data: recordLows,
                         pointStart: Date.parse(historicalStartDate),
                         pointInterval: 3600 * 1000 // one hour
                     },
                     {
-                        name: 'Forecasted Temperature',
-                        data: forecastData,
-                        pointStart: Date.parse(forecastStartDate),
+                        name: 'Record Highs',
+                        data: recordHighs,
+                        pointStart: Date.parse(historicalStartDate),
                         pointInterval: 3600 * 1000  // one hour
                     }]
                 });
             })
-            fetch('/historical_highs_and_lows')
-            .then((res) => res.json())
-            .then((json) => {
-                console.log(json)
-                const highData = json.map(entry => entry.high)
-                const lowData = json.map(entry => entry.low)
-                // const historicalHighsAndLowsStartDate = json[0].date
-
-                // Highcharts.stockChart('chart_two', {
-                //     rangeSelector: {
-                //         selected: 1
-                //     },
-            
-                //     title: {
-                //         text: 'Historical Highs and Lows'
-                //     },
-            
-                //     xAxis: {
-                //         type: 'datetime'
-                //     },
-            
-                //     series: [{
-                //         name: 'Low',
-                //         data: lowData,
-                //         pointStart: Date.parse(historicalHighsAndLowsStartDate),
-                //         pointInterval: 3600 * 3000 // three hours
-                //     },
-                //     {
-                //         name: 'High',
-                //         data: highData,
-                //         pointStart: Date.parse(historicalHighsAndLowsStartDate),
-                //         pointInterval: 3600 * 3000 // three hours
-                //     }]
-                // });
-            })
         })
     }
-    buildChart()
+    buildCharts()
 });
 
