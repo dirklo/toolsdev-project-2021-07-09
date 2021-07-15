@@ -1,23 +1,5 @@
 {
-  "name": "toolsdev-project-2021-07-09",
-  "version": "1.0.0",
-  "description": "This README would normally document whatever steps are necessary to get the application up and running.",
-  "main": "index.js",
-  "directories": {
-    "lib": "lib",
-    "test": "test"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dirklo/toolsdev-project-2021-07-09.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dirklo/toolsdev-project-2021-07-09/issues"
-  },
-  "homepage": "https://github.com/dirklo/toolsdev-project-2021-07-09#readme"
+  "dependencies": {
+    "highcharts": "^9.1.2"
+  }
 }

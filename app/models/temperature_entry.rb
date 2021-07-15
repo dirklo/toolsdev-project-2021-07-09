@@ -7,7 +7,7 @@ class TemperatureEntry < ApplicationRecord
     before_create :set_records, :set_historical
 
     scope :sort_by_date, -> { order(:date) }
-    scope :less_than_1_month_old, -> { where('date >= ?', Time.new - 30.days) }
+    scope :less_than_1_month_old, -> { where('date >= ?', Time.new - 1.month) }
     scope :historical, -> { where('date <= ?', Time.new) }
     scope :forecast, -> { where('date > ? AND date < ?', Time.new, Time.new + 2.days) }
 
@@ -15,6 +15,7 @@ class TemperatureEntry < ApplicationRecord
     def self.create_entries(url)
         weather_data = open(url).read
         parsed_weather_data = JSON.parse(weather_data)
+        ap parsed_weather_data
         all_weather_data = parsed_weather_data['data']['weather']
         all_weather_data.each do |day|
             day['hourly'].each do |hour|
@@ -33,7 +34,7 @@ class TemperatureEntry < ApplicationRecord
 
     # Use to build historical entries
     def self.fetch_entries_in_date_range(start_date, end_date)
-        currentUrl = "http://api.worldweatheronline.com/premium/v1/past-weather.ashx?key=#{ENV['API_KEY']}&q=30.404251,-97.849442&data=weather&date=#{start_date}&tp=1&format=json"
+        currentUrl = "http://api.worldweatheronline.com/premium/v1/past-weather.ashx?key=#{ENV['API_KEY']}&q=30.404251,-97.849442&data=weather&date=#{start_date}&enddate=#{end_date}&tp=1&format=json"
         create_entries(currentUrl)
     end
 
@@ -63,8 +64,11 @@ class TemperatureEntry < ApplicationRecord
     def self.fill_needed_data 
         most_recent_date = TemperatureEntry.order(:date).last.date
         while most_recent_date < Date.today + 3.days
+            most_recent_date = TemperatureEntry.order(:date).last.date
             date = most_recent_date.strftime('%Y-%m-%d')
-            fetch_daily_entries(date)
+            
+            fetch_daily_entries(date) if most_recent_date >= Time.new
+            fetch_entries_in_date_range(date, date) if most_recent_date < Time.new
         end
     end
 

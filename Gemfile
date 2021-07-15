@@ -7,8 +7,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '5.2.5'
 # Use postgresql as the database for Active Record
@@ -38,12 +36,9 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'highcharts-rails'
-gem 'highstock-rails'
 gem 'bootstrap', '~> 5.0.1'
 gem 'rest-client'
 gem 'date'
-gem 'daru-view'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

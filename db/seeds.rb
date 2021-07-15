@@ -4,4 +4,4 @@ require 'open-uri'
 require 'date'
 
 
-TemperatureEntry.fetch_daily_entries('2021-3-1)
+TemperatureEntry.fill_needed_data()
