@@ -1,144 +1,149 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    const fetch_temperature_entries = function(data) {
+    refresh_entries()
+
+    setInterval(() => {
+        refresh_entries()
+    }, 1000 * 30)
+
+    const buildCharts = function(chartOneOptions, chartTwoOptions) {
+        let chartOne = new Highcharts.stockChart(chartOneOptions);
+        let chartTwo = new Highcharts.stockChart(chartTwoOptions);
+    }
+
+    function refresh_entries() {
         fetch('/temperature_entries')
         .then((res) => res.json())
-        .then((json) => buildCharts(json))
-    }
+        .then((data) => {
+            console.log('refreshing data')
+            
+            const historicalEntries = data.filter(data => data.historical)
+            const forecastEntries = data.filter(data => !data.historical)
 
-    const buildCharts = function(data) {
-        const historicalEntries = data.filter(data => data.historical)
-        const forecastEntries = data.filter(data => !data.historical)
+            
+            // Historical datapoints
+            const historicalDataF = historicalEntries.map(entry => entry.tempf)
+            const historicalDataC = historicalEntries.map(entry => entry.tempc)
+            const threeHourIntervals = historicalEntries.filter(entry => entry.date.hour % 3 === 0)
 
-        
-        // Historical datapoints
-        const historicalDataF = historicalEntries.map(entry => entry.tempf)
-        const historicalDataC = historicalEntries.map(entry => entry.tempc)
-        const recordLows = historicalEntries.map(entry => entry.record_lowf)
-        const recordHighs = historicalEntries.map(entry => entry.record_highf)
-        const recordsZipped = historicalEntries.map(entry => {
-            return {low: entry.record_lowf, high: entry.record_highf}
-        })
-        const historicalStartDate = historicalEntries[0].date
-        // Forecast datapoints
-        const forecastStartDate = forecastEntries[0].date
-        const forecastDataF = forecastEntries.map(entry => entry.tempf)
-        const forecastDataC = forecastEntries.map(entry => entry.tempc)
+            const recordLows = historicalEntries.map(entry => entry.record_lowf)
+            const recordHighs = historicalEntries.map(entry => entry.record_highf)
+            const recordsZipped = historicalEntries.map(entry => {
+                return {low: entry.record_lowf, high: entry.record_lowf + 10}
+            })
 
-        let chartOne = new Highcharts.stockChart({
-            chart: {
-                renderTo: 'chart_one',
-                type: 'line'
-            },
-            rangeSelector: {
-                selected: 1
-            },
-            title: {
-                text: 'Austin HQ Temperature'
-            },
-            subtitle: {
-                text: 'Previous Month at 1:00 Hour Intervals'
-            },
-            xAxis: {
-                type: 'datetime'
-            },
-            yAxis: {
-                title: {
-                    text: 'Temperature(C/F)'
+            const historicalStartDate = new Date(historicalEntries[0].date)
+            // Forecast datapoints
+            const forecastStartDate = new Date(forecastEntries[0].date)
+            const forecastDataF = forecastEntries.map(entry => entry.tempf)
+            const forecastDataC = forecastEntries.map(entry => entry.tempc)
+
+            const optionsOne = {
+                chart: {
+                    renderTo: 'chart_one',
+                    type: 'line',
+                    width: '1000'
                 },
-            },
-            series: [{
-                name: 'Historical Temperature(F)',
-                data: historicalDataF,
-                pointStart: Date.parse(historicalStartDate),
-                pointInterval: 3600 * 1000 // one hour
-            },
-            {
-                name: 'Forecasted Temperature(F)',
-                data: forecastDataF,
-                pointStart: Date.parse(forecastStartDate),
-                pointInterval: 3600 * 1000  // one hour
-            },
-            {
-                name: 'Historical Temperature(C)',
-                data: historicalDataC,
-                pointStart: Date.parse(historicalStartDate),
-                pointInterval: 3600 * 1000 // one hour
-            },
-            {
-                name: 'Forecasted Temperature(C)',
-                data: forecastDataC,
-                pointStart: Date.parse(forecastStartDate),
-                pointInterval: 3600 * 1000  // one hour
-            }]
+                rangeSelector: {
+                    selected: 1,
+                    buttons: [{
+                        type: 'day',
+                        count: 1,
+                        text: 'cd',
+                        title: 'View Current Day'
+                    }, {
+                        type: 'week',
+                        count: 1,
+                        text: '1w',
+                        title: 'View 1 Week'
+                    }, {
+                        type: 'all',
+                        text: 'All',
+                        title: 'View all'
+                    }]
+                },
+                title: {
+                    text: 'Austin HQ Temperature'
+                },
+                subtitle: {
+                    text: 'Previous Month at 1-Hour Intervals'
+                },
+                xAxis: {
+                    type: 'datetime'
+                },
+                yAxis: {
+                    title: {
+                        text: 'Temperature(C/F)'
+                    },
+                },
+                series: [{
+                    name: 'Historical Temperature(F)',
+                    data: historicalDataF,
+                    pointStart: Date.parse(historicalStartDate),
+                    pointInterval: 3600 * 1000 // one hour
+                },
+                {
+                    name: 'Forecasted Temperature(F)',
+                    data: forecastDataF,
+                    pointStart: Date.parse(forecastStartDate),
+                    pointInterval: 3600 * 1000  // one hour
+                },
+                {
+                    name: 'Historical Temperature(C)',
+                    data: historicalDataC,
+                    pointStart: Date.parse(historicalStartDate),
+                    pointInterval: 3600 * 1000 // one hour
+                },
+                {
+                    name: 'Forecasted Temperature(C)',
+                    data: forecastDataC,
+                    pointStart: Date.parse(forecastStartDate),
+                    pointInterval: 3600 * 1000  // one hour
+                }]
+            }
+
+            const optionsTwo = {
+                chart: {
+                    renderTo: chart_two,
+                    type: 'arearange',
+                    width: '1000'
+                },
+            
+                legend: {
+                    enabled: false
+                },
+            
+                title: {
+                    text: 'Record Highs and Lows'
+                },
+    
+                subtitle: {
+                    text: '1 Month, 3-hour Intervals'
+                },
+            
+                tooltip: {
+                    shared: true
+                },
+            
+                xAxis: {
+                    type: 'datetime'
+                },
+            
+                yAxis: {
+                    title: {
+                        text: 'Life Expectancy (years)'
+                    }
+                },
+            
+                series: [{
+                    name: 'Record Highs and Lows',
+                    data: recordsZipped,
+                    pointStart: Date.parse(historicalStartDate),
+                    pointInterval: 3600 * 1000  // one hour
+                }]
+            }
+            buildCharts(optionsOne, optionsTwo)
         });
-
-        // let chartTwo = new Highcharts.chart({
-        //     chart: {
-        //         renderTo: 'chart_two',
-        //         type: 'line',
-        //     },
-        //     rangeSelector: {
-        //         selected: 1
-        //     },
-        //     tooltip: {
-        //         shared: true
-        //     },
-        //     title: {
-        //         text: 'Austin HQ Record Highs and Lows'
-        //     },
-        //     subtitle: {
-        // 		text: 'Previous Month at 3:00 Hour Intervals'
-        // 	},
-        //     xAxis: {
-        //         type: 'datetime'
-        //     },
-        //     series: [{
-        //         name: 'Record Low',
-        //         data: recordLows,
-        //         pointStart: Date.parse(historicalStartDate),
-        //         pointInterval: 3600 * 1000, // one hour
-        //     },
-        //     {
-        //         name: 'Record High',
-        //         data: recordHighs,
-        //         pointStart: Date.parse(historicalStartDate),
-        //         pointInterval: 3600 * 1000, // one hour
-        //     }]
-        // });
-
-        // Highcharts.chart('chart_two', {
-
-        //     rangeSelector: {
-        //         selected: 4
-        //     },
-    
-        //     plotOptions: {
-        //         series: {
-        //             showInNavigator: true
-        //         }
-        //     },
-    
-        //     tooltip: {
-        //         pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y} USD</b><br/>',
-        //         valueDecimals: 2
-        //     },
-    
-        //     series: [{
-        //         name: 'Record Low',
-        //         data: recordLows,
-        //         pointStart: Date.parse(historicalStartDate),
-        //         pointInterval: 3600 * 1000, // one hour
-        //     },
-        //     {
-        //         name: 'Record High',
-        //         data: recordHighs,
-        //         pointStart: Date.parse(historicalStartDate),
-        //         pointInterval: 3600 * 1000, // one hour
-        //     }]
-        // });
     }
-    fetch_temperature_entries()
-    
 });
 

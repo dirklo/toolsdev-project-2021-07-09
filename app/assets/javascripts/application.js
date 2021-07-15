@@ -17,6 +17,11 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require highcharts/highstock
+//= require highcharts/highcharts-more
+//= require highcharts/modules/dumbbell
+//= require highcharts/modules/exporting
+//= require highcharts/modules/export-data
+//= require highcharts/modules/accessibility
                                                                                          
                                                                                                      
 
