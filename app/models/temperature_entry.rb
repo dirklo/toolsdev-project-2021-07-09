@@ -4,7 +4,7 @@ require 'open-uri'
 require 'date'
 
 class TemperatureEntry < ApplicationRecord
-    before_create :set_records
+    before_create :set_records, :set_historical
 
     scope :sort_by_date, -> { order(:date) }
     scope :less_than_1_month_old, -> { where('date >= ?', Time.new - 30.days) }
@@ -87,5 +87,9 @@ class TemperatureEntry < ApplicationRecord
                 self.record_lowf = self.tempf
                 self.record_lowc = self.tempc
             end
+        end
+
+        def set_historical
+            self.historical = false if self.date > Time.new
         end
 end

@@ -8,6 +8,7 @@ class CreateTemperatureEntries < ActiveRecord::Migration[5.2]
       t.integer :record_highc
       t.integer :record_lowf
       t.integer :record_lowc
+      t.boolean :historical, default: true
 
       t.timestamps
     end

@@ -38,6 +38,7 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'highcharts-rails'
 gem 'highstock-rails'
 gem 'bootstrap', '~> 5.0.1'
 gem 'rest-client'

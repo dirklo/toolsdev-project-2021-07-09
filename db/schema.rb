@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2021_07_10_145640) do
     t.integer "record_highc"
     t.integer "record_lowf"
     t.integer "record_lowc"
+    t.boolean "historical", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
