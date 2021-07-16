@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const recordLows = historicalEntries.map(entry => entry.record_lowf)
             const recordHighs = historicalEntries.map(entry => entry.record_highf)
             const recordsZipped = historicalEntries.map(entry => {
-                return {low: entry.record_lowf, high: entry.record_lowf + 10}
+                return {low: entry.record_lowf, high: entry.record_highf}
             })
 
             const historicalStartDate = new Date(historicalEntries[0].date)
