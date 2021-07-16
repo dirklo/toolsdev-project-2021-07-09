@@ -10,6 +10,7 @@ class TemperatureEntry < ApplicationRecord
     scope :less_than_1_month_old, -> { where('date >= ?', Time.new - 1.month) }
     scope :historical, -> { where('date <= ?', Time.new) }
     scope :forecast, -> { where('date > ? AND date < ?', Time.new, Time.new + 2.days) }
+    scope :stale, -> { where('date <=? AND historical = ?', Time.new, false) }
 
     # Pass in a url to create all ruby object from the api call
     def self.create_entries(url)
@@ -70,6 +71,10 @@ class TemperatureEntry < ApplicationRecord
             fetch_daily_entries(date) if most_recent_date >= Time.new
             fetch_entries_in_date_range(date, date) if most_recent_date < Time.new
         end
+    end
+
+    def self.test
+        puts "I AM A TEST AND SHOULD RUN EVERY MINUTE"
     end
 
     private

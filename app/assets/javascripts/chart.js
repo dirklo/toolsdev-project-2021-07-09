@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
                 yAxis: {
                     title: {
-                        text: 'Life Expectancy (years)'
+                        text: 'Temperature(F)'
                     }
                 },
             
