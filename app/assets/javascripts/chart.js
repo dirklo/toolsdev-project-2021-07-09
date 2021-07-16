@@ -116,6 +116,25 @@ document.addEventListener('DOMContentLoaded', function () {
                     type: 'arearange',
                     width: '1000'
                 },
+
+                rangeSelector: {
+                    selected: 2,
+                    buttons: [{
+                        type: 'day',
+                        count: 1,
+                        text: 'cd',
+                        title: 'View Current Day'
+                    }, {
+                        type: 'week',
+                        count: 1,
+                        text: '1w',
+                        title: 'View 1 Week'
+                    }, {
+                        type: 'all',
+                        text: 'All',
+                        title: 'View all'
+                    }]
+                },
             
                 legend: {
                     enabled: false
