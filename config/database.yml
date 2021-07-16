@@ -59,7 +59,7 @@ test:
   <<: *default
   database: hiringProject_test
   username: hiringProject
-  password: hiringProject
+  password: <%= ENV['HIRINGPROJECT_DATABASE_PASSWORD'] %>
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -83,5 +83,3 @@ test:
 production:
   <<: *default
   database: hiringProject_production
-  # username: hiringProject
-  # password: <%= ENV['HIRINGPROJECT_DATABASE_PASSWORD'] %>
