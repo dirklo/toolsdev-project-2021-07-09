@@ -2,6 +2,9 @@ class UpdateStaleEntriesJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
+    # If data is not at least 3 days out, fill in needed entries
+    TemperatureEntry.fill_needed_data
+
     # Check all entries for stale entries
     entries_to_check = TemperatureEntry.stale.sort_by_date
 
