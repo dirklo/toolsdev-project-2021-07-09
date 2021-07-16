@@ -82,4 +82,4 @@ test:
 #
 production:
   <<: *default
-  database: hiringProject_production
+  database: <%= ENV['DATABASE_URL'] %>
