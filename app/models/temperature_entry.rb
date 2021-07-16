@@ -16,7 +16,6 @@ class TemperatureEntry < ApplicationRecord
     def self.create_entries(url)
         weather_data = open(url).read
         parsed_weather_data = JSON.parse(weather_data)
-        ap parsed_weather_data
         all_weather_data = parsed_weather_data['data']['weather']
         all_weather_data.each do |day|
             day['hourly'].each do |hour|
