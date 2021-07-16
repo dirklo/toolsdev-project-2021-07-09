@@ -7,12 +7,15 @@ class UpdateStaleEntriesJob < ApplicationJob
 
     # Create list of dates with stale info
     if !entries_to_check.empty?
+      
       dates_to_update = []
       entries_to_check.each do |entry| 
         date = entry.date.strftime('%Y-%m-%d')
         dates_to_update << date unless dates_to_update.include?(date)
       end
 
+      puts 'updating stale entries'
+      puts dates_to_update
       # Update the days with stale info
       TemperatureEntry.fetch_entries_in_date_range(dates_to_update[0], dates_to_update[-1])
     else

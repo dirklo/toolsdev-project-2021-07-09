@@ -4,3 +4,13 @@
 require_relative 'config/application'
 
 Rails.application.load_tasks
+
+
+desc 'Update Stale Entries'
+namespace :app do
+    namespace :jobs do
+        task :update_stale_entries do
+            UpdateStaleEntriesJob.perform_now
+        end
+    end
+end

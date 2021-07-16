@@ -1,17 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    refresh_entries()
+    refresh_entries(true)
 
     setInterval(function() {
-        refresh_entries()
-    }, 1000 * 30)
+        refresh_entries(false)
+    }, 1000 * 60 * 30)
 
-    const buildCharts = function(chartOneOptions, chartTwoOptions) {
-        let chartOne = new Highcharts.stockChart(chartOneOptions);
-        let chartTwo = new Highcharts.stockChart(chartTwoOptions);
+    const buildCharts = function(chartOneOptions, chartTwoOptions, update) {
+        if (!update) {
+            chartOne = new Highcharts.stockChart(chartOneOptions);
+            chartTwo = new Highcharts.stockChart(chartTwoOptions);
+        } else {
+            chartOne.update(chartOneOptions)
+            chartTwo.update(chartTwoOptions)
+        }
     }
 
-    function refresh_entries() {
+    function refresh_entries(initial) {
+        console.log('initial: ' + initial)
+
         fetch('/temperature_entries')
         .then((res) => res.json())
         .then((data) => {
@@ -37,6 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const forecastStartDate = new Date(forecastEntries[0].date)
             const forecastDataF = forecastEntries.map(entry => entry.tempf)
             const forecastDataC = forecastEntries.map(entry => entry.tempc)
+            let chartOne
+            let chartTwo
 
             const optionsOne = {
                 chart: {
@@ -45,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     width: '1000'
                 },
                 rangeSelector: {
-                    selected: 1,
+                    selected: 2,
                     buttons: [{
                         type: 'day',
                         count: 1,
@@ -142,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     pointInterval: 3600 * 1000  // one hour
                 }]
             }
-            buildCharts(optionsOne, optionsTwo)
+            buildCharts(optionsOne, optionsTwo, !initial)
         });
     }
 });
