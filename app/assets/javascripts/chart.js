@@ -22,28 +22,27 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('/temperature_entries')
         .then((res) => res.json())
         .then((data) => {
-            console.log('refreshing data')
-            
-            const historicalEntries = data.filter(data => data.historical)
-            const forecastEntries = data.filter(data => !data.historical)
-
             
             // Historical datapoints
+            const historicalEntries = data.filter(data => data.historical)
             const historicalDataF = historicalEntries.map(entry => entry.tempf)
             const historicalDataC = historicalEntries.map(entry => entry.tempc)
-            const threeHourIntervals = historicalEntries.filter(entry => entry.date.hour % 3 === 0)
-
-            const recordLows = historicalEntries.map(entry => entry.record_lowf)
-            const recordHighs = historicalEntries.map(entry => entry.record_highf)
-            const recordsZipped = historicalEntries.map(entry => {
-                return {low: entry.record_lowf, high: entry.record_highf}
-            })
-
             const historicalStartDate = new Date(historicalEntries[0].date)
+            
             // Forecast datapoints
-            const forecastStartDate = new Date(forecastEntries[0].date)
+            const forecastEntries = data.filter(data => !data.historical)
             const forecastDataF = forecastEntries.map(entry => entry.tempf)
             const forecastDataC = forecastEntries.map(entry => entry.tempc)
+            const forecastStartDate = new Date(forecastEntries[0].date)
+
+            // Records datapoints
+            const threeHourIntervals = historicalEntries.filter(entry => new Date(entry.date).getHours() % 3 === 0)
+
+            const recordsZipped = threeHourIntervals.map(entry => {
+                return {low: entry.record_lowf, high: entry.record_highf}
+            })
+            const recordsStartDate = new Date(threeHourIntervals[0].date)
+
             let chartOne
             let chartTwo
 
@@ -147,8 +146,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 series: [{
                     name: 'Record Highs and Lows',
                     data: recordsZipped,
-                    pointStart: Date.parse(historicalStartDate),
-                    pointInterval: 3600 * 1000  // one hour
+                    pointStart: Date.parse(recordsStartDate),
+                    pointInterval: 3600 * 1000 * 3  // three hours
                 }]
             }
             buildCharts(optionsOne, optionsTwo, !initial)
