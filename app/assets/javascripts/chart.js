@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     refresh_entries()
 
-    setInterval(() => {
+    setInterval(function() {
         refresh_entries()
     }, 1000 * 30)
 
