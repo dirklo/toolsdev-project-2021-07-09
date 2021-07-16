@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('/temperature_entries')
         .then((res) => res.json())
         .then((data) => {
-            
+            console.log(data)
             // Historical datapoints
             const historicalEntries = data.filter(data => data.historical)
             const historicalDataF = historicalEntries.map(entry => entry.tempf)
