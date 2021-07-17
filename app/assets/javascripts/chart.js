@@ -29,8 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const optionsOne = {
             chart: {
                 renderTo: 'chart_one',
-                type: 'line',
-                width: '1000'
+                type: 'line'
             },
             rangeSelector: {
                 selected: 2,
@@ -93,8 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const optionsTwo = {
             chart: {
                 renderTo: chart_two,
-                type: 'arearange',
-                width: '1000'
+                type: 'arearange'
             },
 
             rangeSelector: {
@@ -173,6 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 1000 * 60 * 30) // 30 minutes
 
     setChartWidth = function() {
+        console.log(window.innerWidth)
         if (window.innerWidth < 1000) {
             chartOne.setSize(window.innerWidth, 500)
             chartTwo.setSize(window.innerWidth, 500)
@@ -182,9 +181,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Listen for screen resize and adjust chart width accordinly.
     window.addEventListener('resize', () => {
         setChartWidth()
-    })
+    }, false)
 
-    // Initiall build
+    // Initial build
     buildCharts(true)
 });
 
