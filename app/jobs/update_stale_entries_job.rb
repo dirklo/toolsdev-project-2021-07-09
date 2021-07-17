@@ -13,7 +13,7 @@ class UpdateStaleEntriesJob < ApplicationJob
       dates_to_update = []
       entries_to_check.each do |entry|
         if entry.date.hour <= 6
-          date = entry.(date - 1.day).strftime('%Y-%m-%d')
+          date = (entry.date - 1.day).strftime('%Y-%m-%d')
         else
           date = entry.date.strftime('%Y-%m-%d')
         end
