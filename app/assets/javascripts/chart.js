@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const optionsOne = {
                 chart: {
                     renderTo: 'chart_one',
-                    type: 'line'
+                    type: 'line',
+                    width: 1000
                 },
                 rangeSelector: {
                     selected: 2,
@@ -91,7 +92,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const optionsTwo = {
                 chart: {
                     renderTo: chart_two,
-                    type: 'arearange'
+                    type: 'arearange',
+                    width: 1000
                 },
 
                 rangeSelector: {
@@ -170,7 +172,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 1000 * 60 * 30) // 30 minutes
 
     setChartWidth = function() {
-        console.log(window.innerWidth)
         if (window.innerWidth < 1000) {
             chartOne.setSize(window.innerWidth, 500)
             chartTwo.setSize(window.innerWidth, 500)
@@ -181,6 +182,22 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('resize', () => {
         setChartWidth()
     }, false)
+
+    document.getElementById('chart_one_cd_button').addEventListener('click', () => {
+        date = new Date
+        chartOne.xAxis[0].setExtremes(
+            Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+            Date.UTC(date.getFullYear(), date.getMonth(), date.getDate() + 1)
+        );
+    });
+
+    document.getElementById('chart_two_cd_button').addEventListener('click', () => {
+        date = new Date
+        chartTwo.xAxis[0].setExtremes(
+            Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+            Date.UTC(date.getFullYear(), date.getMonth(), date.getDate() + 1)
+        );
+    });
 
     // Initial build
     buildCharts(true)
