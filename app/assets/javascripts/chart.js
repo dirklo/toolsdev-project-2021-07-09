@@ -14,13 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
             chartOne.update(chartOneOptions)
             chartTwo.update(chartTwoOptions)
         }
-
-        setChartWidth = () => {
-            if (window.innerWidth < 1000) {
-                chartOne.setSize(window.innerWidth, 500)
-                chartTwo.setSize(window.innerWidth, 500)
-            }
-        }
         
         window.addEventListener('resize', () => {
             setChartWidth()
@@ -56,6 +49,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             let chartOne
             let chartTwo
+
+            setChartWidth = () => {
+                if (window.innerWidth < 1000) {
+                    chartOne.setSize(window.innerWidth, 500)
+                    chartTwo.setSize(window.innerWidth, 500)
+                }
+            }
 
             const optionsOne = {
                 chart: {

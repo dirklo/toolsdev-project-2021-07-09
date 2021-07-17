@@ -22,8 +22,3 @@
 //= require highcharts/modules/exporting
 //= require highcharts/modules/export-data
 //= require highcharts/modules/accessibility
-                                                                                         
-                                                                                                     
-
-
-
