@@ -10,10 +10,13 @@ class UpdateStaleEntriesJob < ApplicationJob
 
     # Create list of dates with stale info
     if !entries_to_check.empty?
-      
       dates_to_update = []
-      entries_to_check.each do |entry| 
-        date = entry.date.strftime('%Y-%m-%d')
+      entries_to_check.each do |entry|
+        if entry.date.hour <= 6
+          date = entry.(date - 1.day).strftime('%Y-%m-%d')
+        else
+          date = entry.date.strftime('%Y-%m-%d')
+        end
         dates_to_update << date unless dates_to_update.include?(date)
       end
 

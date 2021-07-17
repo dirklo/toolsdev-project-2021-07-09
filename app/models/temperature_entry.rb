@@ -8,8 +8,6 @@ class TemperatureEntry < ApplicationRecord
 
     scope :sort_by_date, -> { order(:date) }
     scope :less_than_1_month_old, -> { where('date >= ?', Time.new - 1.month) }
-    # scope :historical, -> { where('date <= ?', Time.new) }
-    # scope :forecast, -> { where('date > ? AND date < ?', Time.new, Time.new + 2.days) }
     scope :less_than_48_hours_forecast, -> { where('date < ?', Time.new + 48.hours) }
     scope :stale, -> { where('date <=? AND historical = ?', Time.new, false) }
 
