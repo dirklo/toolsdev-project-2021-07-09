@@ -29,14 +29,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 chart: {
                     renderTo: 'chart_one',
                     type: 'line',
-                    width: 1000
+                    width: 1000,
+                    backgroundColor: 'black'
                 },
                 rangeSelector: {
                     selected: 2,
                     buttons: [{
                         type: 'day',
                         count: 1,
-                        text: 'cd',
+                        text: '1d',
                         title: 'View Current Day'
                     }, {
                         type: 'week',
@@ -50,10 +51,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     }]
                 },
                 title: {
-                    text: 'Austin HQ Temperature'
+                    text: 'Austin HQ Temperature',
+                    style: { "color": "#ffffff", "fontSize": "18px" }
                 },
                 subtitle: {
-                    text: 'Previous Month at 1-Hour Intervals'
+                    text: '1 Month at 1-Hour Intervals'
+                },
+                credits: {
+                    enabled: false
                 },
                 xAxis: {
                     type: 'datetime'
@@ -93,7 +98,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 chart: {
                     renderTo: chart_two,
                     type: 'arearange',
-                    width: 1000
+                    width: 1000,
+                    backgroundColor: 'black'
                 },
 
                 rangeSelector: {
@@ -101,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     buttons: [{
                         type: 'day',
                         count: 1,
-                        text: 'cd',
+                        text: '1d',
                         title: 'View Current Day'
                     }, {
                         type: 'week',
@@ -120,11 +126,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
             
                 title: {
-                    text: 'Record Highs and Lows'
+                    text: 'Record Highs and Lows',
+                    style: { "color": "#ffffff", "fontSize": "18px" }
                 },
 
                 subtitle: {
-                    text: '1 Month, 3-hour Intervals'
+                    text: '1 Month at 3-hour Intervals'
+                },
+                
+                credits: {
+                    enabled: false
                 },
             
                 tooltip: {

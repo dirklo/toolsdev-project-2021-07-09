@@ -1,24 +1,30 @@
-
 <div class='navbar navbar-expand-lg navbar-light bg-dark p-1'>
     <%= link_to 'http://www.bigcommerce.com' do %>
         <%= image_tag 'logo.png', style: 'height: 50px; width: auto; margin-left: 10px'; %>
     <% end %>
 </div>
-<main class='d-flex flex-column justify-content-start align-items-center'>
+<main class='d-flex flex-column justify-content-start align-items-center bg-dark'>
     <div id='charts_container' class='d-flex flex-column justify-content-start align-items-center' style='width: 100%; max-width: 1000px;'>
-        <button id='chart_one_cd_button'>
-            cd
+        <button 
+            id='chart_one_cd_button' 
+            class='btn btn-outline-primary align-self-start m-3'
+        >
+            Current Day
         </button>
         <div 
             id="chart_one" 
-            class="mb-5"
+            class="mb-5 overflow-hidden rounded"
             style="height:500px;">
         </div>
-        <button id='chart_two_cd_button'>
-            cd
+        <button 
+            id='chart_two_cd_button'
+            class='btn btn-outline-primary align-self-start m-3'
+        >
+            Current Day
         </button>
         <div 
             id="chart_two" 
+            class="mb-5 overflow-hidden rounded"
             style="height:500px;">
         </div>
     </div>
