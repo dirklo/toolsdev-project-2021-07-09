@@ -21,7 +21,7 @@ class UpdateStaleEntriesJob < ApplicationJob
       end
 
       puts 'updating stale entries'
-      puts dates_to_update
+
       # Update the days with stale info
       TemperatureEntry.fetch_entries_in_date_range(dates_to_update[0], dates_to_update[-1])
     else
