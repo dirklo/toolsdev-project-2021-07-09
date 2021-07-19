@@ -1,24 +1,30 @@
-# README
+# TOOLS DEV HIRING PROJECT FOR RICK MOORE
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Built with Ruby 2.6.4
+## Built with Rails 5.2.5
+## Deployed at https://tools-dev-rick-moore.herokuapp.com/
 
-Things you may want to cover:
+### Final project is located on the feature-branch    
+# How to install
 
-* Ruby version
+* Uses PostgreSQL database in test/development/production.  You will need to configure  
+`config/database.yml`  
+to your local database credentials.
 
-* System dependencies
+* Uses .env to store an API Key for https://www.worldweatheronline.com/developer/.  
+You'll need your own account and key to install this project.
 
-* Configuration
+* The database depends on previous data to store record highs and lows.
 
-* Database creation
+* You can set a start date for this historical data with  
+`TemperatureEntry.fetch_entries_in_date_range(start_date, end_date)`
 
-* Database initialization
+* dates should be in YYYY-MM-DD formats.
 
-* How to run the test suite
+* This will only fetch up to a month of entries, so after the first seed, you can call  
+`TemperatureEntry.fill_needed_data`  
+to fill one month of data at a time until the data is current.
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* After this seeding, Use a scheduler to call  
+`UpdateStaleEntriesJob.perform_now`  
+once per hour to keep data current.
