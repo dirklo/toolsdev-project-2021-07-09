@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Records datapoints
             const threeHourIntervals = historicalEntries.filter(entry => new Date(entry.date).getHours() % 3 === 0)
-
             const recordsZipped = threeHourIntervals.map(entry => {
                 return {low: entry.record_lowf, high: entry.record_highf}
             })
