@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         type: 'day',
                         count: 1,
                         text: '1d',
-                        title: 'View Current Day'
+                        title: 'View 1 Day'
                     }, {
                         type: 'week',
                         count: 1,
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         type: 'day',
                         count: 1,
                         text: '1d',
-                        title: 'View Current Day'
+                        title: 'View 1 Day'
                     }, {
                         type: 'week',
                         count: 1,
@@ -120,38 +120,30 @@ document.addEventListener('DOMContentLoaded', function () {
                         title: 'View all'
                     }]
                 },
-            
                 legend: {
                     enabled: false
                 },
-            
                 title: {
                     text: 'Record Highs and Lows',
                     style: { "color": "#ffffff", "fontSize": "18px" }
                 },
-
                 subtitle: {
                     text: '1 Month at 3-hour Intervals'
                 },
-                
                 credits: {
                     enabled: false
                 },
-            
                 tooltip: {
                     shared: true
                 },
-            
                 xAxis: {
                     type: 'datetime'
                 },
-            
                 yAxis: {
                     title: {
                         text: 'Temperature(F)'
                     }
                 },
-            
                 series: [{
                     name: 'Record Highs and Lows',
                     data: recordsZipped,
@@ -189,11 +181,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Listen for screen resize and adjust chart width accordinly.
+    // Listen for screen resize and adjust chart width accordingly.
     window.addEventListener('resize', () => {
         setChartWidth()
     }, false)
 
+    // Current day buttons
     document.getElementById('chart_one_cd_button').addEventListener('click', () => {
         date = new Date
         chartOne.xAxis[0].setExtremes(
