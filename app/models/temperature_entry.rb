@@ -45,11 +45,7 @@ class TemperatureEntry < ApplicationRecord
 
     # Auto-fill historical entries based on most recent entry
     def self.create_historical_entries
-        most_recent_date = TemperatureEntry.order(:date).last.date
-        num_entries_in_day = TemperatureEntry.where(
-            'extract(month from date) = ? AND extract(day from date) = ? AND extract(year from date) = ?', 
-            most_recent_date.month, most_recent_date.day, most_recent_date.year
-        ).count
+        most_recent_date = TemperatureEntry.sort_by_date.last.date
             
         start_date = most_recent_date.strftime('%Y-%m-%d')
         end_date = (most_recent_date + 30.days).strftime('%Y-%m-%d')
@@ -59,11 +55,11 @@ class TemperatureEntry < ApplicationRecord
         fetch_entries_in_date_range(start_date, end_date)
     end
 
-    # Use to check current data and fill current day or forecast entries.
+    # Use to check current data and fill current day or forecast entries
     def self.fill_needed_data 
-        most_recent_date = TemperatureEntry.order(:date).last.date
+        most_recent_date = TemperatureEntry.sort_by_date.last.date
         while most_recent_date < Date.today + 3.days
-            most_recent_date = TemperatureEntry.order(:date).last.date
+            most_recent_date = TemperatureEntry.sort_by_date.last.date
             date = most_recent_date.strftime('%Y-%m-%d')
             
             fetch_daily_entries(date) if most_recent_date >= Time.new
@@ -71,11 +67,9 @@ class TemperatureEntry < ApplicationRecord
         end
     end
 
-    def self.test
-        puts "I AM A TEST AND SHOULD RUN EVERY MINUTE"
-    end
-
     private
+        # Automatically sets records from previous data on same month/day/hour
+        # If no previous entry found, sets records from current data
         def set_records 
             previous_entry = TemperatureEntry.find do |entry|
                 entry.date.day == self.date.day && 
@@ -96,6 +90,7 @@ class TemperatureEntry < ApplicationRecord
             end
         end
 
+        # When a new entry is created, automatically flags it as forecast if its date is in the future
         def set_historical
             self.historical = false if self.date > Time.new
         end
